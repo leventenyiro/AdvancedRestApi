@@ -2,6 +2,7 @@
 using AdvancedRestApi.Interfaces;
 using AdvancedRestApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,6 +20,7 @@ namespace AdvancedRestApi.Controllers
 
         // GET: api/<UsersController>
         [HttpGet]
+        [EnableQuery]
         public async Task<IActionResult> Get()
         {
             var result = await _userService.GetAllUsers();

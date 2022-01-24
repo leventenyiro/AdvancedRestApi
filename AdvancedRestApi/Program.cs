@@ -2,6 +2,7 @@ using AdvancedRestApi.Data;
 using AdvancedRestApi.Interfaces;
 using AdvancedRestApi.Profiles;
 using AdvancedRestApi.Services;
+using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,9 @@ builder.Services.AddScoped<IUser, UserService>();
 
 // Automapper
 builder.Services.AddAutoMapper(typeof(AutoMapperConfig));
+
+// OData
+builder.Services.AddControllers().AddOData(option => option.Select().Filter().OrderBy());
 
 var app = builder.Build();
 
