@@ -2,6 +2,7 @@
 using AdvancedRestApi.DTO_s;
 using AdvancedRestApi.Interfaces;
 using AdvancedRestApi.Models;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace AdvancedRestApi.Services
@@ -9,21 +10,18 @@ namespace AdvancedRestApi.Services
     public class UserService : IUser
     {
         private UserDbContext _dbContext;
-        public UserService(UserDbContext dbContext)
+        private IMapper _mapper;
+        public UserService(UserDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public async Task<(bool IsSuccess, string ErrorMessage)> AddUser(UserDTO userdto)
         {
             if (userdto != null)
             {
-                var user = new User();
-                user.Name = userdto.Name;
-                user.Address = userdto.Address;
-                user.Phone = userdto.Phone;
-                user.BloodGroup = userdto.BloodGroup;
-
+                var user = _mapper.Map<User>(userdto);
                 await _dbContext.Users.AddAsync(user);
                 await _dbContext.SaveChangesAsync();
                 return (true, null);
@@ -48,7 +46,8 @@ namespace AdvancedRestApi.Services
             var users = await _dbContext.Users.ToListAsync();
             if (users != null)
             {
-                return (true, users, null);
+                var result = _mapper.Map<UserDTO>(users);
+                return (true, result, null);
             }
 
             return (false, null, "No users found");
@@ -59,16 +58,18 @@ namespace AdvancedRestApi.Services
             var user = await _dbContext.Users.FindAsync(id);
             if (user != null)
             {
-                return (true, user, null);
+                var result = _mapper.Map<UserDTO>(user);
+                return (true, result, null);
             }
             return (false, null, "No user found");
         }
 
-        public async Task<(bool IsSuccess, string ErrorMessage)> UpdateUser(Guid id, UserDTO user)
+        public async Task<(bool IsSuccess, string ErrorMessage)> UpdateUser(Guid id, UserDTO userdto)
         {
             var userObj = await _dbContext.Users.FindAsync(id);
             if (userObj != null)
             {
+                var user = _mapper.Map<User>(userdto);
                 userObj.Name = user.Name;
                 userObj.Address = user.Address;
                 userObj.Phone = user.Phone;

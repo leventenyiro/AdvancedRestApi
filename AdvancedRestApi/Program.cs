@@ -1,5 +1,6 @@
 using AdvancedRestApi.Data;
 using AdvancedRestApi.Interfaces;
+using AdvancedRestApi.Profiles;
 using AdvancedRestApi.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,9 @@ builder.Services.AddDbContext<UserDbContext>(option => option.UseSqlServer(@"Dat
 
 // Dependency injection
 builder.Services.AddScoped<IUser, UserService>();
+
+// Automapper
+builder.Services.AddAutoMapper(typeof(AutoMapperConfig));
 
 var app = builder.Build();
 
