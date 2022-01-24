@@ -1,4 +1,5 @@
-﻿using AdvancedRestApi.Interfaces;
+﻿using AdvancedRestApi.DTO_s;
+using AdvancedRestApi.Interfaces;
 using AdvancedRestApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,7 +43,7 @@ namespace AdvancedRestApi.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] User user)
+        public async Task<IActionResult> Post([FromBody] UserDTO user)
         {
             var result = await _userService.AddUser(user);
             if (result.IsSuccess)
@@ -54,7 +55,7 @@ namespace AdvancedRestApi.Controllers
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, [FromBody] User user)
+        public async Task<IActionResult> Put(Guid id, [FromBody] UserDTO user)
         {
             var result = await _userService.UpdateUser(id, user);
             if (result.IsSuccess)

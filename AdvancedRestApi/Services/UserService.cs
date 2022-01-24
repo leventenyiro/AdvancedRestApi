@@ -1,4 +1,5 @@
 ﻿using AdvancedRestApi.Data;
+using AdvancedRestApi.DTO_s;
 using AdvancedRestApi.Interfaces;
 using AdvancedRestApi.Models;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,16 @@ namespace AdvancedRestApi.Services
             _dbContext = dbContext;
         }
 
-        public async Task<(bool IsSuccess, string ErrorMessage)> AddUser(User user)
+        public async Task<(bool IsSuccess, string ErrorMessage)> AddUser(UserDTO userdto)
         {
-            if (user != null)
+            if (userdto != null)
             {
+                var user = new User();
+                user.Name = userdto.Name;
+                user.Address = userdto.Address;
+                user.Phone = userdto.Phone;
+                user.BloodGroup = userdto.BloodGroup;
+
                 await _dbContext.Users.AddAsync(user);
                 await _dbContext.SaveChangesAsync();
                 return (true, null);
@@ -36,7 +43,7 @@ namespace AdvancedRestApi.Services
             return (false, "User not found");
         }
 
-        public async Task<(bool IsSuccess, List<User> User, string ErrorMessage)> GetAllUsers()
+        public async Task<(bool IsSuccess, List<UserDTO> User, string ErrorMessage)> GetAllUsers()
         {
             var users = await _dbContext.Users.ToListAsync();
             if (users != null)
@@ -47,7 +54,7 @@ namespace AdvancedRestApi.Services
             return (false, null, "No users found");
         }
 
-        public async Task<(bool IsSuccess, User User, string ErrorMessage)> GetUserById(Guid id)
+        public async Task<(bool IsSuccess, UserDTO User, string ErrorMessage)> GetUserById(Guid id)
         {
             var user = await _dbContext.Users.FindAsync(id);
             if (user != null)
@@ -57,7 +64,7 @@ namespace AdvancedRestApi.Services
             return (false, null, "No user found");
         }
 
-        public async Task<(bool IsSuccess, string ErrorMessage)> UpdateUser(Guid id, User user)
+        public async Task<(bool IsSuccess, string ErrorMessage)> UpdateUser(Guid id, UserDTO user)
         {
             var userObj = await _dbContext.Users.FindAsync(id);
             if (userObj != null)
