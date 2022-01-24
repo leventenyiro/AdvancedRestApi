@@ -1,4 +1,6 @@
 using AdvancedRestApi.Data;
+using AdvancedRestApi.Interfaces;
+using AdvancedRestApi.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +14,9 @@ builder.Services.AddSwaggerGen();
 
 // Sql
 builder.Services.AddDbContext<UserDbContext>(option => option.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=UsersDb;"));
+
+// Dependency injection
+builder.Services.AddScoped<IUser, UserService>();
 
 var app = builder.Build();
 
