@@ -13,17 +13,27 @@ namespace AdvancedRestApi.Services
             _dbContext = dbContext;
         }
 
-        public async Task AddUser(User user)
+        public async Task<(bool IsSuccess, string ErrorMessage)> AddUser(User user)
         {
-            await _dbContext.Users.AddAsync(user);
-            await _dbContext.SaveChangesAsync();
+            if (user != null)
+            {
+                await _dbContext.Users.AddAsync(user);
+                await _dbContext.SaveChangesAsync();
+                return (true, null);
+            }
+            return (false, "Please provide the user data");
         }
 
-        public async Task DeleteUser(Guid id)
+        public async Task<(bool IsSuccess, string ErrorMessage)> DeleteUser(Guid id)
         {
             var user = await _dbContext.Users.FindAsync(id);
-            _dbContext.Users.Remove(user);
-            await _dbContext.SaveChangesAsync();
+            if (user != null)
+            {
+                _dbContext.Users.Remove(user);
+                await _dbContext.SaveChangesAsync();
+                return (true, null);
+            }
+            return (false, "User not found");
         }
 
         public async Task<(bool IsSuccess, List<User> User, string ErrorMessage)> GetAllUsers()
@@ -47,14 +57,19 @@ namespace AdvancedRestApi.Services
             return (false, null, "No user found");
         }
 
-        public async Task UpdateUser(Guid id, User user)
+        public async Task<(bool IsSuccess, string ErrorMessage)> UpdateUser(Guid id, User user)
         {
             var userObj = await _dbContext.Users.FindAsync(id);
-            userObj.Name = user.Name;
-            userObj.Address = user.Address;
-            userObj.Phone = user.Phone;
-            userObj.BloodGroup = user.BloodGroup;
-            await _dbContext.SaveChangesAsync();
+            if (userObj != null)
+            {
+                userObj.Name = user.Name;
+                userObj.Address = user.Address;
+                userObj.Phone = user.Phone;
+                userObj.BloodGroup = user.BloodGroup;
+                await _dbContext.SaveChangesAsync();
+                return (true, null);
+            }
+            return (false, "User not found");
         }
     }
 }
