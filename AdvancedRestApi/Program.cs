@@ -29,3 +29,9 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+/* course info-s
+    Package Manager Console
+    PM> add-migration InitCreate
+    PM> update-database
+*/
