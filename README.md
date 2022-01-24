@@ -13,3 +13,4 @@ OData - it helps in queries
 + Microsoft.AspNetCore.OData
 + Microsoft.EntityFrameworkCore
 + Microsoft.EntityFrameworkCore.SqlServer
++ Microsoft.EntityFrameworkCore.Tools
