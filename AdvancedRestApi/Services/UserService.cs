@@ -26,14 +26,25 @@ namespace AdvancedRestApi.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<User>> GetAllUsers()
+        public async Task<(bool IsSuccess, List<User> User, string ErrorMessage)> GetAllUsers()
         {
-            return await _dbContext.Users.ToListAsync();
+            var users = await _dbContext.Users.ToListAsync();
+            if (users != null)
+            {
+                return (true, users, null);
+            }
+
+            return (false, null, "No users found");
         }
 
-        public async Task<User> GetUserById(Guid id)
+        public async Task<(bool IsSuccess, User User, string ErrorMessage)> GetUserById(Guid id)
         {
-            return await _dbContext.Users.FindAsync(id);
+            var user = await _dbContext.Users.FindAsync(id);
+            if (user != null)
+            {
+                return (true, user, null);
+            }
+            return (false, null, "No user found");
         }
 
         public async Task UpdateUser(Guid id, User user)
