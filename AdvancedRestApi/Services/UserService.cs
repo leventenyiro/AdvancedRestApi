@@ -46,7 +46,7 @@ namespace AdvancedRestApi.Services
             var users = await _dbContext.Users.ToListAsync();
             if (users != null)
             {
-                var result = _mapper.Map<UserDTO>(users);
+                var result = _mapper.Map<List<UserDTO>>(users);
                 return (true, result, null);
             }
 
