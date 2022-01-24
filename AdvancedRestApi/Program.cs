@@ -2,6 +2,7 @@ using AdvancedRestApi.Data;
 using AdvancedRestApi.Interfaces;
 using AdvancedRestApi.Profiles;
 using AdvancedRestApi.Services;
+using AspNetCoreRateLimit;
 using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,6 +27,23 @@ builder.Services.AddAutoMapper(typeof(AutoMapperConfig));
 // OData
 builder.Services.AddControllers().AddOData(option => option.Select().Filter().OrderBy());
 
+// RateLimiter
+builder.Services.AddMemoryCache();
+builder.Services.Configure<IpRateLimitOptions>((options) =>
+{
+    options.GeneralRules = new List<RateLimitRule>()
+    {
+        new RateLimitRule()
+        {
+            Endpoint = "*",
+            Limit = 10,
+            Period = "3m"
+        }
+    };
+});
+builder.Services.AddInMemoryRateLimiting();
+builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -41,10 +59,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+// RateLimiter
+app.UseIpRateLimiting();
 
-/* course info-s
-    Package Manager Console
-    PM> add-migration InitCreate
-    PM> update-database
-*/
+app.Run();
