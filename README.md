@@ -16,4 +16,4 @@ https://localhost:7130/api/users?$select=id,Name&$orderby=Name%20desc
 + Microsoft.EntityFrameworkCore
 + Microsoft.EntityFrameworkCore.SqlServer
 + Microsoft.EntityFrameworkCore.Tools
-AspNetCoreRateLimit
++ AspNetCoreRateLimit
