@@ -3,17 +3,16 @@ using AdvancedRestApi.DTO_s;
 using AdvancedRestApi.Interfaces;
 using AdvancedRestApi.Models;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 
 namespace AdvancedRestApi.Services
 {
     public class UserService : IUser
     {
-        private UserDbContext _dbContext;
+        private readonly ICosmosDbService _cosmosDbService;
         private IMapper _mapper;
-        public UserService(UserDbContext dbContext, IMapper mapper)
+        public UserService(ICosmosDbService cosmosDbService, IMapper mapper)
         {
-            _dbContext = dbContext;
+            _cosmosDbService = cosmosDbService;
             _mapper = mapper;
         }
 
@@ -22,8 +21,8 @@ namespace AdvancedRestApi.Services
             if (userdto != null)
             {
                 var user = _mapper.Map<User>(userdto);
-                await _dbContext.Users.AddAsync(user);
-                await _dbContext.SaveChangesAsync();
+                user.Id = Guid.NewGuid();
+                await _cosmosDbService.AddItemAsync(user);
                 return (true, null);
             }
             return (false, "Please provide the user data");
@@ -31,11 +30,11 @@ namespace AdvancedRestApi.Services
 
         public async Task<(bool IsSuccess, string ErrorMessage)> DeleteUser(Guid id)
         {
-            var user = await _dbContext.Users.FindAsync(id);
+            var user = await _cosmosDbService.GetItemAsync(id.ToString());
             if (user != null)
             {
-                _dbContext.Users.Remove(user);
-                await _dbContext.SaveChangesAsync();
+                await _cosmosDbService.DeleteItemAsync(id.ToString());
+                
                 return (true, null);
             }
             return (false, "User not found");
@@ -43,7 +42,7 @@ namespace AdvancedRestApi.Services
 
         public async Task<(bool IsSuccess, List<UserDTO> User, string ErrorMessage)> GetAllUsers()
         {
-            var users = await _dbContext.Users.ToListAsync();
+            var users = await _cosmosDbService.GetItemsAsync("SELECT * FROM c");
             if (users != null)
             {
                 var result = _mapper.Map<List<UserDTO>>(users);
@@ -55,7 +54,7 @@ namespace AdvancedRestApi.Services
 
         public async Task<(bool IsSuccess, UserDTO User, string ErrorMessage)> GetUserById(Guid id)
         {
-            var user = await _dbContext.Users.FindAsync(id);
+            var user = await _cosmosDbService.GetItemAsync(id.ToString());
             if (user != null)
             {
                 var result = _mapper.Map<UserDTO>(user);
@@ -66,7 +65,7 @@ namespace AdvancedRestApi.Services
 
         public async Task<(bool IsSuccess, string ErrorMessage)> UpdateUser(Guid id, UserDTO userdto)
         {
-            var userObj = await _dbContext.Users.FindAsync(id);
+            var userObj = await _cosmosDbService.GetItemAsync(id.ToString());
             if (userObj != null)
             {
                 var user = _mapper.Map<User>(userdto);
@@ -74,7 +73,7 @@ namespace AdvancedRestApi.Services
                 userObj.Address = user.Address;
                 userObj.Phone = user.Phone;
                 userObj.BloodGroup = user.BloodGroup;
-                await _dbContext.SaveChangesAsync();
+                _cosmosDbService.UpdateItemAsync(id.ToString(), userObj);
                 return (true, null);
             }
             return (false, "User not found");

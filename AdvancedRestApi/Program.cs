@@ -15,9 +15,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Sql
-builder.Services.AddDbContext<UserDbContext>(option => option.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=UsersDb;"));
-
 // Dependency injection
 builder.Services.AddScoped<IUser, UserService>();
 
@@ -37,12 +34,28 @@ builder.Services.Configure<IpRateLimitOptions>((options) =>
         {
             Endpoint = "*",
             Limit = 10,
-            Period = "3m"
+            Period = "3s"
         }
     };
 });
 builder.Services.AddInMemoryRateLimiting();
 builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+
+// CosmosDb
+static async Task<CosmosDbService> InitializeCosmosClientInstanceAsync(IConfigurationSection configurationSection)
+{
+    string databaseName = configurationSection.GetSection("DatabaseName").Value;
+    string containerName = configurationSection.GetSection("ContainerName").Value;
+    string account = configurationSection.GetSection("Account").Value;
+    string key = configurationSection.GetSection("Key").Value;
+    Microsoft.Azure.Cosmos.CosmosClient client = new Microsoft.Azure.Cosmos.CosmosClient(account, key);
+    CosmosDbService cosmosDbService = new CosmosDbService(client, databaseName, containerName);
+    Microsoft.Azure.Cosmos.DatabaseResponse database = await client.CreateDatabaseIfNotExistsAsync(databaseName);
+    await database.Database.CreateContainerIfNotExistsAsync(containerName, "/id");
+
+    return cosmosDbService;
+}
+builder.Services.AddSingleton<ICosmosDbService>(InitializeCosmosClientInstanceAsync(builder.Configuration.GetSection("CosmosDb")).GetAwaiter().GetResult());
 
 var app = builder.Build();
 
