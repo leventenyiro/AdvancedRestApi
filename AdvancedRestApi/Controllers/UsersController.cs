@@ -35,7 +35,6 @@ namespace AdvancedRestApi.Controllers
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        [EnableQuery]
         public async Task<IActionResult> Get(Guid id)
         {
             var result = await _userService.GetUserById(id);
