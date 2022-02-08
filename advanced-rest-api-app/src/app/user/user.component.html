@@ -1,0 +1,19 @@
+<div class="container">
+    <h1>Table</h1>
+
+    <div class="row">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Blood Group</th>
+                </tr>
+            </thead>
+            <tbody>
+                <app-user-item *ngFor="let userEl of users" [user]="userEl"></app-user-item>
+            </tbody>
+        </table>
+    </div>
+</div>

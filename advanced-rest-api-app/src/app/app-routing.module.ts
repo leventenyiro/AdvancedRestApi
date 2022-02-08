@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
-import { Route, RouterModule, Routes } from '@angular/router';
-import { AppComponent } from './app.component';
-import { CreateComponent } from './create/create.component';
-import { ListComponent } from './list/list.component';
+import { RouterModule, Routes } from '@angular/router';
+import { CreateComponent } from './user/create/create.component';
+import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
-  //{ path: '', redirectTo: '/', pathMatch: 'full' },
-  { path: '', component: ListComponent },
+  { path: 'user', component: UserComponent },
   { path: 'create', component: CreateComponent }
 ];
 

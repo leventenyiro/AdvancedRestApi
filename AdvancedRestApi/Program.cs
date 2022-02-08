@@ -57,6 +57,13 @@ static async Task<CosmosDbService> InitializeCosmosClientInstanceAsync(IConfigur
 }
 builder.Services.AddSingleton<ICosmosDbService>(InitializeCosmosClientInstanceAsync(builder.Configuration.GetSection("CosmosDb")).GetAwaiter().GetResult());
 
+// CORS
+/*builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
+{
+    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));*/
+builder.Services.AddCors();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -74,5 +81,9 @@ app.MapControllers();
 
 // RateLimiter
 app.UseIpRateLimiting();
+
+// CORS
+//app.UseCors();
+app.UseCors(x => x.AllowAnyMethod().AllowAnyHeader().SetIsOriginAllowed(origin => true).AllowCredentials());
 
 app.Run();
