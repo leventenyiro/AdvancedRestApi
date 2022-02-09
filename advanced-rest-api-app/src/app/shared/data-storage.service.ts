@@ -39,4 +39,12 @@ export class DataStorageService {
             )
             .subscribe(response => console.log(response));
     }
+
+    deleteUser(id: string) {
+        return this.http
+            .delete(
+                `https://advancedrestapi.azurewebsites.net/api/users/${id}`
+            )
+            .subscribe(response => console.log(response))
+    }
 }

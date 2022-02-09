@@ -22,7 +22,7 @@
                     <td>{{ userEl.phone }}</td>
                     <td>{{ userEl.bloodGroup }}</td>
                     <td><button class="btn btn-primary">Update</button></td>
-                    <td><button class="btn btn-danger">Delete</button></td>
+                    <td><button class="btn btn-danger" (click)="onDeleteUser(userEl.id)">Delete</button></td>
                 </tr>
             </tbody>
         </table>
