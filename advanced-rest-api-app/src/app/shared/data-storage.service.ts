@@ -30,4 +30,13 @@ export class DataStorageService {
                 })
             )
     }
+
+    postUser(postData: User) {
+        return this.http
+            .post(
+                'https://advancedrestapi.azurewebsites.net/api/users',
+                postData
+            )
+            .subscribe(response => console.log(response));
+    }
 }
