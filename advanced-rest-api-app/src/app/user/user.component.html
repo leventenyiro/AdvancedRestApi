@@ -1,6 +1,8 @@
 <div class="container">
     <h1>Table</h1>
 
+    <button class="btn btn-primary" (click)="onFetchData()">Refresh</button>
+
     <div class="row">
         <table class="table table-striped">
             <thead>
@@ -9,10 +11,19 @@
                     <th scope="col">Address</th>
                     <th scope="col">Phone</th>
                     <th scope="col">Blood Group</th>
+                    <th colspan="2">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <app-user-item *ngFor="let userEl of users" [user]="userEl"></app-user-item>
+                <tr *ngFor="let userEl of users">
+                    <!--<app-user-item [user]="userEl"></app-user-item>-->
+                    <td>{{ userEl.name }}</td>
+                    <td>{{ userEl.address }}</td>
+                    <td>{{ userEl.phone }}</td>
+                    <td>{{ userEl.bloodGroup }}</td>
+                    <td><button class="btn btn-primary">Update</button></td>
+                    <td><button class="btn btn-danger">Delete</button></td>
+                </tr>
             </tbody>
         </table>
     </div>

@@ -10,17 +10,17 @@ import { UserService } from './user.service';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit, OnDestroy {
-  users: User[];
-  subscription: Subscription;
+  users: User[] = [];
+  subscription?: Subscription;
 
   constructor(private dataStorageService: DataStorageService, private userService: UserService) {}
-  //constructor(private userService: UserService) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.onFetchData();
-    console.log(this.userService.getUsers())
-    //this.dataStorageService.fetchUsers().subscribe();
-    
+  }
+
+  onFetchData() {
+    this.dataStorageService.fetchUsers().subscribe();
     this.subscription = this.userService.usersChanged
       .subscribe(
         (users: User[]) => {
@@ -28,14 +28,9 @@ export class UserComponent implements OnInit, OnDestroy {
         }
       )
     this.users = this.userService.getUsers();
-    
-  }
-
-  onFetchData() {
-    this.dataStorageService.fetchUsers().subscribe();
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscription?.unsubscribe();
   }
 }

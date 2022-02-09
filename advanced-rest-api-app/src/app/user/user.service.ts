@@ -11,6 +11,7 @@ export class UserService {
 
     setUsers(users: User[]) {
         this.users = users;
+        this.usersChanged.next(this.users.slice());
     }
 
     getUsers() {

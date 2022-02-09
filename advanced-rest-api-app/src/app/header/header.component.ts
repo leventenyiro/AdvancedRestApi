@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { DataStorageService } from '../shared/data-storage.service';
 
 @Component({
@@ -7,10 +7,10 @@ import { DataStorageService } from '../shared/data-storage.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  constructor(private dataStorageService: DataStorageService) {}
+  //constructor(private dataStorageService: DataStorageService) {}
 
-  onFetchData() {
+  /*onFetchData() {
     this.dataStorageService.fetchUsers().subscribe();
-  }
+  }*/
 
 }

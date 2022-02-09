@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserService } from "../user/user.service";
 import { User } from "./user.model";
 import { map, tap } from "rxjs";
@@ -9,9 +9,13 @@ export class DataStorageService {
     constructor(private http: HttpClient, private userService: UserService) {}
 
     fetchUsers() {
+        let headers = new HttpHeaders().set('content-type', 'application/json').set('Access-Control-Allow-Origin', '*')
         return this.http
             .get<User[]>(
-                'https://advancedrestapi.azurewebsites.net/api/users'
+                'https://advancedrestapi.azurewebsites.net/api/users',
+                {
+                    headers: headers
+                }
             )
             .pipe(
                 map(users => {
