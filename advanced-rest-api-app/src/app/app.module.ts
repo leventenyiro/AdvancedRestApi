@@ -9,13 +9,15 @@ import { CreateComponent } from './user/create/create.component';
 import { UserComponent } from './user/user.component';
 import { UserService } from './user/user.service';
 import { FormsModule } from '@angular/forms';
+import { UpdateComponent } from './user/update/update.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     CreateComponent,
-    UserComponent
+    UserComponent,
+    UpdateComponent
   ],
   imports: [
     BrowserModule,

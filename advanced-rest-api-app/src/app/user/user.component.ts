@@ -23,6 +23,10 @@ export class UserComponent implements OnInit, OnDestroy {
 
   // onCreatePost here??
 
+  onUpdateUser(id: string) {
+    this.router.navigate([`update/${id}`])
+  }
+
   onDeleteUser(id: string) {
     this.dataStorageService.deleteUser(id)
     this.users = this.users.filter(item => item.id != id);

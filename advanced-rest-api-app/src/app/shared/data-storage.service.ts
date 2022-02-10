@@ -40,6 +40,22 @@ export class DataStorageService {
             .subscribe(response => console.log(response));
     }
 
+    getUser(id: string) {
+        let headers = new HttpHeaders().set('content-type', 'application/json').set('Access-Control-Allow-Origin', '*')
+        return this.http
+            .get<User[]>(
+                `https://advancedrestapi.azurewebsites.net/api/users/${id}`,
+                {
+                    headers: headers
+                }
+            )
+            .pipe(
+                user => {
+                    return user
+                }
+            )
+    }
+
     deleteUser(id: string) {
         return this.http
             .delete(
