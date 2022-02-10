@@ -15,6 +15,9 @@
                 </tr>
             </thead>
             <tbody>
+                <div class="spinner-border" role="status" *ngIf="isFetching">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
                 <tr *ngFor="let userEl of users">
                     <!--<app-user-item [user]="userEl"></app-user-item>-->
                     <td>{{ userEl.name }}</td>

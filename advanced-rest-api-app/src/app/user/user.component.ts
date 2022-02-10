@@ -13,6 +13,7 @@ import { UserService } from './user.service';
 export class UserComponent implements OnInit, OnDestroy {
   users: User[] = [];
   subscription?: Subscription;
+  isFetching = false;
 
   constructor(private dataStorageService: DataStorageService, private userService: UserService, private router: Router) {}
 
@@ -20,23 +21,25 @@ export class UserComponent implements OnInit, OnDestroy {
     this.onFetchData();
   }
 
+  // onCreatePost here??
+
   onDeleteUser(id: string) {
     this.dataStorageService.deleteUser(id)
     this.users = this.users.filter(item => item.id != id);
     this.userService.setUsers(this.users)
-    //this.onFetchData()
   }
 
   onFetchData() {
+    this.isFetching = true;
     this.dataStorageService.fetchUsers().subscribe();
     this.subscription = this.userService.usersChanged
       .subscribe(
         (users: User[]) => {
           this.users = users
+          this.isFetching = false;
         }
       )
     this.users = this.userService.getUsers();
-    //this.router.navigate(['user'])
   }
 
   ngOnDestroy(): void {
