@@ -7,7 +7,6 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { CreateComponent } from './user/create/create.component';
 import { UserComponent } from './user/user.component';
-import { UserItemComponent } from './user/user-item/user-item.component';
 import { UserService } from './user/user.service';
 import { FormsModule } from '@angular/forms';
 
@@ -16,8 +15,7 @@ import { FormsModule } from '@angular/forms';
     AppComponent,
     HeaderComponent,
     CreateComponent,
-    UserComponent,
-    UserItemComponent
+    UserComponent
   ],
   imports: [
     BrowserModule,
