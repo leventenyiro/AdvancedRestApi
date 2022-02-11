@@ -1,32 +1,39 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Subject } from "rxjs";
-import { User } from "../shared/user.model";
+import { map, Subject, tap } from "rxjs";
+import { User } from "./user.model";
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
     usersChanged = new Subject<User[]>();
     private users: User[] = [];
-    private user?: User;
 
     constructor(private http: HttpClient) {}
 
-    setUsers(users: User[]) {
-        this.users = users;
-        this.usersChanged.next(this.users.slice());
-    }
-
     getUsers() {
-        return this.users.slice();
+        let headers = new HttpHeaders().set('content-type', 'application/json').set('Access-Control-Allow-Origin', '*')
+        return this.http
+            .get<User[]>(
+                'https://advancedrestapi.azurewebsites.net/api/users',
+                {
+                    headers: headers
+                }
+            ).pipe(users => {
+                return users;
+            })
     }
 
-    /*setUser(user: User) {
-        this.user = user;
+    addUser(user: User) {
+        return this.http
+        .post(
+            'https://advancedrestapi.azurewebsites.net/api/users',
+            user
+        )
+        .subscribe(response => {
+            console.log(response)
+            this.users.push(user);
+        })
     }
-
-    getUser() {
-        return this.user;
-    }*/
 
     getUser(id: string) {
         let headers = new HttpHeaders().set('content-type', 'application/json').set('Access-Control-Allow-Origin', '*')
@@ -42,11 +49,19 @@ export class UserService {
             })
     }
 
-    updateUser(id: string, userData: User) {
+    updateUser(id: string, user: User) {
         return this.http
             .put(
                 `https://advancedrestapi.azurewebsites.net/api/users/${id}`,
-                userData
+                user
+            )
+            .subscribe(response => console.log(response))
+    }
+
+    deleteUser(id: string) {
+        return this.http
+            .delete(
+                `https://advancedrestapi.azurewebsites.net/api/users/${id}`
             )
             .subscribe(response => console.log(response))
     }

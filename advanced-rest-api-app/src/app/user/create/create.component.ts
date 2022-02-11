@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { DataStorageService } from 'src/app/shared/data-storage.service';
-import { User } from 'src/app/shared/user.model';
+import { User } from 'src/app/user/user.model';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-create',
@@ -10,13 +10,13 @@ import { User } from 'src/app/shared/user.model';
 })
 export class CreateComponent implements OnInit {
 
-  constructor(private dataStorageService: DataStorageService, private router: Router) { }
+  constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
-  onCreateUser(postData: User) {
-    this.dataStorageService.postUser(postData);
+  onCreateUser(user: User) {
+    this.userService.addUser(user)
     this.router.navigate(['user'])
   }
 }

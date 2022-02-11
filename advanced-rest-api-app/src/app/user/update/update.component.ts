@@ -1,7 +1,7 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { User } from 'src/app/shared/user.model';
+import { User } from 'src/app/user/user.model';
 import { UserService } from '../user.service';
 
 @Component({
@@ -42,8 +42,8 @@ export class UpdateComponent implements OnInit {
     )
   }
 
-  onUpdateUser(data: User) {
-    this.userService.updateUser(this.id!, data);
+  onUpdateUser(user: User) {
+    this.userService.updateUser(this.id!, user);
     this.router.navigate(['user'])
   }
 }
