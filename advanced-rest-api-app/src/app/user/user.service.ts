@@ -41,4 +41,13 @@ export class UserService {
                 return user;
             })
     }
+
+    updateUser(id: string, userData: User) {
+        return this.http
+            .put(
+                `https://advancedrestapi.azurewebsites.net/api/users/${id}`,
+                userData
+            )
+            .subscribe(response => console.log(response))
+    }
 }

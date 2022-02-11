@@ -1,7 +1,6 @@
 import { Component, Injectable, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { DataStorageService } from 'src/app/shared/data-storage.service';
 import { User } from 'src/app/shared/user.model';
 import { UserService } from '../user.service';
 
@@ -15,18 +14,36 @@ export class UpdateComponent implements OnInit {
   id?: string;
   user?: User;
   subscription?: Subscription;
+  isFetching = false;
 
-  constructor(private route: ActivatedRoute, private userService: UserService) { }
+  constructor(private route: ActivatedRoute, private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get("id")!
+    
+    this.isFetching = true;
 
-    this.userService.getUser(this.id).subscribe(
+    this.userService.getUser(this.id!).subscribe(
       user => {
         this.user = user;
+        this.isFetching = false;
       }
     )
   }
 
+  getUser() {
+    this.isFetching = true;
 
+    this.userService.getUser(this.id!).subscribe(
+      user => {
+        this.user = user;
+        this.isFetching = false;
+      }
+    )
+  }
+
+  onUpdateUser(data: User) {
+    this.userService.updateUser(this.id!, data);
+    this.router.navigate(['user'])
+  }
 }
