@@ -9,14 +9,20 @@ import { UserService } from '../user.service';
   styleUrls: ['./create.component.scss']
 })
 export class CreateComponent implements OnInit {
+  //errorName: string = "Name is required";
 
   constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
-  onCreateUser(user: User) {
-    this.userService.addUser(user)
-    this.router.navigate(['user'])
+  onCreateUser(data: any) {
+    /*if (condition) {
+      data.form.controls["name"].status = "INVALID"
+      this.errorName = "Name must be 3 char"
+    } else {*/
+      this.userService.addUser(data.value)
+      this.router.navigate(['user'])
+    //}
   }
 }
