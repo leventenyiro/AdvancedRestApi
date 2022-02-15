@@ -5,22 +5,26 @@
         <form #postForm="ngForm" (ngSubmit)="onCreateUser(postForm.value)">
             <div class="mb-3">
                 <label for="inputName" class="form-label">Name</label>
-                <input type="text" class="form-control" id="inputName" name="name" required ngModel>
+                <input required type="text" class="form-control" id="inputName" ngModel name="name" #name="ngModel" [class.is-invalid]="!name.valid && name.touched" [class.is-valid]="name.valid">
+                <div class="invalid-feedback">Name is required</div>
             </div>
     
             <div class="mb-3">
                 <label for="inputAddress" class="form-label">Address</label>
-                <input type="text" class="form-control" id="inputAddress" name="address" required ngModel>
+                <input required type="text" class="form-control" id="inputAddress" ngModel name="address" #address="ngModel" [class.is-invalid]="!address.valid && address.touched" [class.is-valid]="address.valid">
+                <div class="invalid-feedback">Address is required</div>
             </div>
     
             <div class="mb-3">
                 <label for="inputPhone" class="form-label">Phone</label>
-                <input type="text" class="form-control" id="inputPhone" name="phone" required ngModel>
+                <input required type="text" class="form-control" id="inputPhone" name="phone" ngModel name="phone" #phone="ngModel" [class.is-invalid]="!phone.valid && phone.touched" [class.is-valid]="phone.valid">
+                <div class="invalid-feedback">Phone is required</div>
             </div>
     
             <div class="mb-3">
                 <label for="inputBloodGroup" class="form-label">Blood group</label>
-                <input type="text" class="form-control" id="inputBloodGroup" name="bloodGroup" required ngModel>
+                <input required type="text" class="form-control" id="inputBloodGroup" name="bloodGroup" ngModel name="bloodGroup" #bloodGroup="ngModel" [class.is-invalid]="!bloodGroup.valid && bloodGroup.touched" [class.is-valid]="bloodGroup.valid">
+                <div class="invalid-feedback">Blood Group is required</div>
             </div>
     
             <button class="btn btn-primary" [disabled]="!postForm.valid">Send</button>
