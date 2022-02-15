@@ -1,33 +1,36 @@
-<div class="container">
-    <h1>Table</h1>
-
-    <button class="btn btn-primary" (click)="onFetchData()">Refresh</button>
-
-    <div class="row">
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Address</th>
-                    <th scope="col">Phone</th>
-                    <th scope="col">Blood Group</th>
-                    <th colspan="2">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <div class="spinner-border" role="status" *ngIf="isFetching">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <tr *ngFor="let userEl of users">
-                    <!--<app-user-item [user]="userEl"></app-user-item>-->
-                    <td>{{ userEl.name }}</td>
-                    <td>{{ userEl.address }}</td>
-                    <td>{{ userEl.phone }}</td>
-                    <td>{{ userEl.bloodGroup }}</td>
-                    <td><button class="btn btn-primary" (click)="onUpdateUser(userEl.id)">Update</button></td>
-                    <td><button class="btn btn-danger" (click)="onDeleteUser(userEl.id)">Delete</button></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+<div class="spinner-border d-flex justify-content-center" role="status" *ngIf="isFetching; else elseDiv">
+    <span class="visually-hidden">Loading...</span>
 </div>
+
+<ng-template #elseDiv>
+    <div class="container">
+        <h1>Table</h1>
+
+        <button class="btn btn-primary" (click)="onFetchData()">Refresh</button>
+
+        <div class="row">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Blood Group</th>
+                        <th colspan="2">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        <tr *ngFor="let userEl of users">
+                            <!--<app-user-item [user]="userEl"></app-user-item>-->
+                            <td>{{ userEl.name }}</td>
+                            <td>{{ userEl.address }}</td>
+                            <td>{{ userEl.phone }}</td>
+                            <td>{{ userEl.bloodGroup }}</td>
+                            <td><button class="btn btn-primary" (click)="onUpdateUser(userEl.id)">Update</button></td>
+                            <td><button class="btn btn-danger" (click)="onDeleteUser(userEl.id)">Delete</button></td>
+                        </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</ng-template>
