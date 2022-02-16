@@ -26,8 +26,11 @@ export class UserComponent implements OnInit {
   }
 
   onDeleteUser(id: string) {
-    this.userService.deleteUser(id)
-    this.users = this.users.filter(item => item.id != id)
+    this.userService.deleteUser(id).subscribe({
+      next: () => this.users = this.users.filter(item => item.id != id),
+      error: err => this.error = err
+    })
+
   }
 
   onFetchData() {

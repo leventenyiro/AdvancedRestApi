@@ -11,10 +11,11 @@ import { UserService } from '../user.service';
 })
 @Injectable()
 export class UpdateComponent implements OnInit {
-  id?: string;
+  id!: string;
   user?: User;
   subscription?: Subscription;
   isFetching = false;
+  error = "";
 
   constructor(private route: ActivatedRoute, private userService: UserService, private router: Router) { }
 
@@ -34,16 +35,22 @@ export class UpdateComponent implements OnInit {
   getUser() {
     this.isFetching = true;
 
-    this.userService.getUser(this.id!).subscribe(
-      user => {
+    this.userService.getUser(this.id!).subscribe({
+      next: user => {
         this.user = user;
         this.isFetching = false;
+      },
+      error: err => {
+        this.error = err;
+        this.isFetching = false;
       }
-    )
+    });
   }
 
   onUpdateUser(user: User) {
-    this.userService.updateUser(this.id!, user);
-    this.router.navigate(['user'])
+    this.userService.updateUser(this.id, user).subscribe({
+      next: () => this.router.navigate(['user']),
+      error: err => this.error = err
+    })
   }
 }

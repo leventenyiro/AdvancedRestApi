@@ -6,7 +6,6 @@ import { User } from "./user.model";
 @Injectable({ providedIn: 'root' })
 export class UserService {
     usersChanged = new Subject<User[]>();
-    //users: User[] = [];
     error = ""
 
     constructor(private http: HttpClient) {}
@@ -29,45 +28,44 @@ export class UserService {
         .post(
             'https://advancedrestapi.azurewebsites.net/api/users',
             user
+        ).pipe(
+            catchError(this.handleError)
         )
-        .pipe(
-            //this.users.push(user);
+    }
+
+    getUser(id: string) {
+        let headers = new HttpHeaders().set('content-type', 'application/json').set('Access-Control-Allow-Origin', '*')
+        return this.http
+        .get<User>(
+            `https://advancedrestapi.azurewebsites.net/api/users/${id}`,
+            {
+                headers: headers
+            }
+        ).pipe(
+            tap(data => JSON.stringify(data)),
             catchError(this.handleError)
         )
     }
 
     // nincs error még
-    getUser(id: string) {
-        let headers = new HttpHeaders().set('content-type', 'application/json').set('Access-Control-Allow-Origin', '*')
-        return this.http
-            .get<User>(
-                `https://advancedrestapi.azurewebsites.net/api/users/${id}`,
-                {
-                    headers: headers
-                }
-            )
-            .pipe(user => {
-                return user;
-            })
-    }
-
-    // nincs error még
     updateUser(id: string, user: User) {
         return this.http
-            .put(
-                `https://advancedrestapi.azurewebsites.net/api/users/${id}`,
-                user
-            )
-            .subscribe(response => console.log(response))
+        .put(
+            `https://advancedrestapi.azurewebsites.net/api/users/${id}`,
+            user
+        ).pipe(
+            catchError(this.handleError)
+        )
     }
 
     // nincs error még
     deleteUser(id: string) {
         return this.http
-            .delete(
-                `https://advancedrestapi.azurewebsites.net/api/users/${id}`
-            )
-            .subscribe(response => console.log(response))
+        .delete(
+            `https://advancedrestapi.azurewebsites.net/api/users/${id}`
+        ).pipe(
+            catchError(this.handleError)
+        )
     }
 
     // HIBAKEZELÉS
