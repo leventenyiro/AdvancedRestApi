@@ -30,7 +30,6 @@ export class UserComponent implements OnInit {
       next: () => this.users = this.users.filter(item => item.id != id),
       error: err => this.error = err
     })
-
   }
 
   onFetchData() {
@@ -38,14 +37,9 @@ export class UserComponent implements OnInit {
 
     //this.subscription = this.userService.getUsers().subscribe({
     this.userService.getUsers().subscribe({
-      next: users => {
-        this.users = users;
-        this.isFetching = false;
-      },
-      error: err => {
-        this.error = err;
-        this.isFetching = false;
-      }
+      next: users => this.users = users,
+      error: err => this.error = err,
+      complete: () => this.isFetching = false
     });
   }
 }

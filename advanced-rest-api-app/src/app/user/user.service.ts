@@ -6,7 +6,6 @@ import { User } from "./user.model";
 @Injectable({ providedIn: 'root' })
 export class UserService {
     usersChanged = new Subject<User[]>();
-    error = ""
 
     constructor(private http: HttpClient) {}
 

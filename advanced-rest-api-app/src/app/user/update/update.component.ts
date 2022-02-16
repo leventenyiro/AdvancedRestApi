@@ -24,33 +24,19 @@ export class UpdateComponent implements OnInit {
     
     this.isFetching = true;
 
-    this.userService.getUser(this.id!).subscribe(
-      user => {
-        this.user = user;
-        this.isFetching = false;
-      }
-    )
-  }
-
-  getUser() {
-    this.isFetching = true;
-
     this.userService.getUser(this.id!).subscribe({
-      next: user => {
-        this.user = user;
-        this.isFetching = false;
-      },
-      error: err => {
-        this.error = err;
-        this.isFetching = false;
-      }
-    });
+      next: user => this.user = user,
+      error: err => this.error = err,
+      complete: () => this.isFetching = false
+    })
   }
 
   onUpdateUser(user: User) {
+    this.isFetching = true;
     this.userService.updateUser(this.id, user).subscribe({
       next: () => this.router.navigate(['user']),
-      error: err => this.error = err
+      error: err => this.error = err,
+      complete: () => this.isFetching = false
     })
   }
 }
