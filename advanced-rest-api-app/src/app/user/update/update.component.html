@@ -28,8 +28,9 @@
         
                 <div class="mb-3">
                     <label for="inputBloodGroup" class="form-label">Blood group</label>
-                    <input required type="text" class="form-control" id="inputBloodGroup" [ngModel]="user?.bloodGroup" name="bloodGroup" #bloodGroup="ngModel" [class.is-invalid]="!bloodGroup.valid" [class.is-valid]="bloodGroup.valid">
-                    <div class="invalid-feedback">Blood Group is required</div>
+                    <input required pattern="(A|B|AB|O)[+-]" type="text" class="form-control" id="inputBloodGroup" [ngModel]="user?.bloodGroup" name="bloodGroup" #bloodGroup="ngModel" [class.is-invalid]="!bloodGroup.valid" [class.is-valid]="bloodGroup.valid">
+                    <div class="invalid-feedback" *ngIf="bloodGroup.errors?.['required']">Blood group is required</div>
+                    <div class="invalid-feedback" *ngIf="bloodGroup.errors?.['pattern']">Blood group is not valid</div>
                 </div>
         
                 <button class="btn btn-primary" [disabled]="!postForm.valid">Send</button>
