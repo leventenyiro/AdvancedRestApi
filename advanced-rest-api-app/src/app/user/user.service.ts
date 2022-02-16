@@ -1,26 +1,27 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { map, Subject, tap } from "rxjs";
+import { catchError, Observable, Subject, tap, throwError } from "rxjs";
 import { User } from "./user.model";
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
     usersChanged = new Subject<User[]>();
-    private users: User[] = [];
+    //users: User[] = [];
+    error = ""
 
     constructor(private http: HttpClient) {}
 
-    getUsers() {
+    getUsers(): Observable<User[]> {
         let headers = new HttpHeaders().set('content-type', 'application/json').set('Access-Control-Allow-Origin', '*')
-        return this.http
-            .get<User[]>(
-                'https://advancedrestapi.azurewebsites.net/api/users',
-                {
-                    headers: headers
-                }
-            ).pipe(users => {
-                return users;
-            })
+        return this.http.get<User[]>(
+            'https://advancedrestapi.azurewebsites.net/api/users',
+            {
+                headers: headers
+            }
+        ).pipe(
+            tap(data => JSON.stringify(data)),
+            catchError(this.handleError)
+        )
     }
 
     addUser(user: User) {
@@ -29,12 +30,13 @@ export class UserService {
             'https://advancedrestapi.azurewebsites.net/api/users',
             user
         )
-        .subscribe(response => {
-            console.log(response)
-            this.users.push(user);
-        })
+        .pipe(
+            //this.users.push(user);
+            catchError(this.handleError)
+        )
     }
 
+    // nincs error még
     getUser(id: string) {
         let headers = new HttpHeaders().set('content-type', 'application/json').set('Access-Control-Allow-Origin', '*')
         return this.http
@@ -49,6 +51,7 @@ export class UserService {
             })
     }
 
+    // nincs error még
     updateUser(id: string, user: User) {
         return this.http
             .put(
@@ -58,6 +61,7 @@ export class UserService {
             .subscribe(response => console.log(response))
     }
 
+    // nincs error még
     deleteUser(id: string) {
         return this.http
             .delete(
@@ -65,4 +69,21 @@ export class UserService {
             )
             .subscribe(response => console.log(response))
     }
+
+    // HIBAKEZELÉS
+    private handleError(err: HttpErrorResponse): Observable<never> {
+        // in a real world app, we may send the server to some remote logging infrastructure
+        // instead of just logging it to the console
+        let errorMessage = '';
+        if (err.error instanceof ErrorEvent) {
+          // A client-side or network error occurred. Handle it accordingly.
+          errorMessage = `An error occurred: ${err.error.message}`;
+        } else {
+          // The backend returned an unsuccessful response code.
+          // The response body may contain clues as to what went wrong,
+          errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
+        }
+
+        return throwError(() => new Error(errorMessage));
+      }
 }

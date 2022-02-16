@@ -10,6 +10,7 @@ import { UserService } from '../user.service';
 })
 export class CreateComponent implements OnInit {
   //errorName: string = "Name is required";
+  error = "";
 
   constructor(private userService: UserService, private router: Router) { }
 
@@ -21,8 +22,12 @@ export class CreateComponent implements OnInit {
       data.form.controls["name"].status = "INVALID"
       this.errorName = "Name must be 3 char"
     } else {*/
-      this.userService.addUser(data.value)
-      this.router.navigate(['user'])
+      this.userService.addUser(data.value).subscribe({
+        next: () => {
+          this.router.navigate(['user'])
+        },
+        error: err => this.error = err
+      })
     //}
   }
 }

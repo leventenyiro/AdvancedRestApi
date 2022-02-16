@@ -1,5 +1,14 @@
-<div class="spinner-border d-flex justify-content-center" role="status" *ngIf="isFetching; else elseDiv">
+<!--<div class="spinner-border d-flex justify-content-center center" role="status" *ngIf="isFetching">
     <span class="visually-hidden">Loading...</span>
+</div>-->
+
+<div class="center" *ngIf="isFetching || error; else elseDiv">
+    <div class="spinner-border" role="status" *ngIf="isFetching">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="alert alert-danger" role="alert" *ngIf="error">
+        {{error}}
+    </div>
 </div>
 
 <ng-template #elseDiv>

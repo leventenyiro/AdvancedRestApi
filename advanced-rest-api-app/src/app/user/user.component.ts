@@ -10,9 +10,10 @@ import { UserService } from './user.service';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-  users: User[] = [];
-  //subscription?: Subscription;
-  isFetching = false;
+  users: User[] = []
+  subscription!: Subscription;
+  isFetching = false
+  error = ""
 
   constructor(private userService: UserService, private router: Router) {}
 
@@ -20,27 +21,28 @@ export class UserComponent implements OnInit {
     this.onFetchData();
   }
 
-  // onCreatePost here??
-
   onUpdateUser(id: string) {
     this.router.navigate([`update/${id}`])
   }
 
   onDeleteUser(id: string) {
     this.userService.deleteUser(id)
-    this.users = this.users.filter(item => item.id != id);
+    this.users = this.users.filter(item => item.id != id)
   }
 
   onFetchData() {
-    this.isFetching = true;
+    this.isFetching = true
 
-    this.userService.getUsers().subscribe(users => {
-      this.users = users;
-      this.isFetching = false;
-    })
+    //this.subscription = this.userService.getUsers().subscribe({
+    this.userService.getUsers().subscribe({
+      next: users => {
+        this.users = users;
+        this.isFetching = false;
+      },
+      error: err => {
+        this.error = err;
+        this.isFetching = false;
+      }
+    });
   }
-
-  /*ngOnDestroy(): void {
-    //this.subscription?.unsubscribe();
-  }*/
 }
