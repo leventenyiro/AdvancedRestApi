@@ -18,3 +18,6 @@ https://localhost:7130/api/users?$filter=Name eq 'Levi'
 + Microsoft.EntityFrameworkCore.SqlServer
 + Microsoft.EntityFrameworkCore.Tools
 + AspNetCoreRateLimit
+
+## Deployment
+Frontend: https://www.youtube.com/watch?v=FW2-_ce_eNc
