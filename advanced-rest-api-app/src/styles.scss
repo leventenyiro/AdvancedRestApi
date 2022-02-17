@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+/*.center {
+    display: block;
+    position: fixed;
+    z-index: 10;
+    top: 50%;
+    right: 50%;
+}*/
+
+.center {
+    height: 94vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
