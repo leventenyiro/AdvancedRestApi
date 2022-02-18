@@ -18,28 +18,31 @@
         <button class="btn btn-primary" (click)="onFetchData()">Refresh</button>
 
         <div class="row">
-            <table class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Address</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Blood Group</th>
-                        <th colspan="2">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                        <tr *ngFor="let userEl of users">
-                            <!--<app-user-item [user]="userEl"></app-user-item>-->
-                            <td>{{ userEl.name }}</td>
-                            <td>{{ userEl.address }}</td>
-                            <td>{{ userEl.phone }}</td>
-                            <td>{{ userEl.bloodGroup }}</td>
-                            <td><button class="btn btn-primary" (click)="onUpdateUser(userEl.id)">Update</button></td>
-                            <td><button class="btn btn-danger" (click)="onDeleteUser(userEl.id)">Delete</button></td>
+            <div class="col-12">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Blood Group</th>
+                            <th colspan="2">Actions</th>
                         </tr>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                            <tr *ngFor="let userEl of users">
+                                <!--<app-user-item [user]="userEl"></app-user-item>-->
+                                <td>{{ userEl.name }}</td>
+                                <td>{{ userEl.address }}</td>
+                                <td>{{ userEl.phone }}</td>
+                                <td>{{ userEl.bloodGroup }}</td>
+                                <td><button class="btn btn-primary" (click)="onUpdateUser(userEl.id)"><i class="bi bi-pen"></i></button></td>
+                                <td><button class="btn btn-danger" (click)="onDeleteUser(userEl.id)"><i class="bi bi-trash3"></i>
+                                </button></td>
+                            </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </ng-template>
