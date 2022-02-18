@@ -35,7 +35,12 @@
                     <div class="invalid-feedback" *ngIf="bloodGroup.errors?.['pattern']">Blood group is not valid</div>
                 </div>
         
-                <button class="btn btn-primary" [disabled]="!postForm.valid">Send</button>
+                <div class="row">
+                    <div class="col d-flex flex-row-reverse">
+                        <button class="btn btn-primary ms-3" [disabled]="!postForm.valid">Send</button>
+                        <button class="btn btn-outline-dark" (click)="onCancel()">Cancel</button>
+                    </div>
+                </div>
 
                 <div class="alert alert-danger" role="alert" *ngIf="error">
                     {{error}}

@@ -31,6 +31,10 @@ export class UpdateComponent implements OnInit {
     })
   }
 
+  onCancel() {
+    this.router.navigate(['user']);
+  }
+  
   onUpdateUser(user: User) {
     this.isFetching = true;
     this.userService.updateUser(this.id, user).subscribe({
