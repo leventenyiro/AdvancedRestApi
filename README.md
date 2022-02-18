@@ -21,3 +21,8 @@ https://localhost:7130/api/users?$filter=Name eq 'Levi'
 
 ## Deployment
 Frontend: https://www.youtube.com/watch?v=FW2-_ce_eNc
+
+## Angular info
+use promise in http:
+ - https://balramchavan.medium.com/using-async-await-feature-in-angular-587dd56fdc77
+ - https://www.learnrxjs.io/learn-rxjs/operators/utility/topromise
