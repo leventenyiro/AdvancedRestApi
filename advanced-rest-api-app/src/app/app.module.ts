@@ -8,7 +8,7 @@ import { HeaderComponent } from './header/header.component';
 import { CreateComponent } from './user/create/create.component';
 import { UserComponent } from './user/user.component';
 import { UserService } from './user/user.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UpdateComponent } from './user/update/update.component';
 
 @NgModule({
@@ -23,7 +23,8 @@ import { UpdateComponent } from './user/update/update.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [UserService],
   bootstrap: [AppComponent]
