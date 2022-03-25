@@ -26,3 +26,10 @@ Frontend: https://www.youtube.com/watch?v=FW2-_ce_eNc
 use promise in http:
  - https://balramchavan.medium.com/using-async-await-feature-in-angular-587dd56fdc77
  - https://www.learnrxjs.io/learn-rxjs/operators/utility/topromise
+
+## Future development
+Login
+- https://docs.microsoft.com/en-us/aspnet/web-api/overview/security/individual-accounts-in-web-api
+- https://jasonwatmore.com/post/2021/05/25/net-5-simple-api-for-authentication-registration-and-user-management
+
+- email verify: 6 digits
